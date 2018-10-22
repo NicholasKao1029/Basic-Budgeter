@@ -33,11 +33,11 @@ public class TestIncomeJson {
         incomeParser.saveTest(salaries);
     }
 
-    @Test
-    public void testload() throws IOException, ParseException {
-        List<Salary> salaries = incomeParser.parseIncomeTest();
-        salaries.get(0).getNamesOfExpenses().get(0),"peppers");
-
-    }
+//    @Test
+//    public void testload() throws IOException, ParseException {
+//        List<Salary> salaries = incomeParser.parseIncomeTest();
+//        salaries.get(0).getNamesOfExpenses().get(0),"peppers");
+//
+//    }
 
 }
