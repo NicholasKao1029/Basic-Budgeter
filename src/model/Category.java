@@ -48,6 +48,16 @@ public class Category {
         return total;
     }
 
+    public List<String> getNamesOfExpenses(){
+        List<Expense> expenses = getExpenses();
+        List<String> names = new ArrayList<>();
+        for (Expense e: expenses ){
+            String name = e.getName();
+            names.add(name);
+        }
+        return names;
+    }
+
     //REQUIRES: nothing
     //MODIFIES: this
     //EFFECTS: returns true if expenses in category are same as c
