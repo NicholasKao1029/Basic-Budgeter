@@ -84,7 +84,7 @@ public class IncomeJSON {
 
     public List<Salary> parseIncomeTest() throws IOException, ParseException {
         JSONParser parser = new JSONParser();
-        Object obj = parser.parse(new FileReader("src\\Test\\TestIncomes.json"));
+        Object obj = parser.parse(new FileReader("src\\Test\\TestIncome.json"));
         JSONObject jsonObject = (JSONObject) obj;
         List<Salary> salaries = new ArrayList<>();
 

@@ -63,14 +63,6 @@ public class CategoriesJSON {
     }
 
 
-
-
-
-
-
-
-
-
     public void saveTest(List<Category> categories) {
         JSONObject obj = new JSONObject();
         for (Category category : categories) {

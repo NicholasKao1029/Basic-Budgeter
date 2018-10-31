@@ -48,6 +48,9 @@ public class Category {
         return total;
     }
 
+    //REQUIRES: nothing
+    //MODIFIES: this
+    //EFFECTS: returns a list of names of the expenses in given category
     public List<String> getNamesOfExpenses(){
         List<Expense> expenses = getExpenses();
         List<String> names = new ArrayList<>();
