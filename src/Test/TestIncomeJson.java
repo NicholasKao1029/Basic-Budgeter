@@ -1,6 +1,6 @@
 package Test;
 
-import model.Files.IncomeJSON;
+import model.FileParser.IncomeJSON;
 import model.Income.ConstantSalary;
 import model.Income.Salary;
 import org.json.simple.parser.ParseException;

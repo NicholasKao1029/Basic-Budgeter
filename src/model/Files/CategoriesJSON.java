@@ -1,4 +1,4 @@
-package model.Files;
+package model.FileParser;
 
 import model.Category;
 import model.Expense;

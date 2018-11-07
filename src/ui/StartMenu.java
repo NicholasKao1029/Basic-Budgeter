@@ -1,6 +1,6 @@
 package ui;
 
-import model.Budget;
+import model.Budgeting.Budget;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;

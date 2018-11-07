@@ -2,7 +2,7 @@ package Test;
 
 import model.Category;
 import model.Expense;
-import model.Files.CategoriesJSON;
+import model.FileParser.CategoriesJSON;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
 
