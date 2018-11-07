@@ -19,7 +19,7 @@ import java.util.Scanner;
 public class Budget {
 
     private List<Category> categories;
-  //  private List<Salary> salaries;
+    private List<Salary> salaries;
     Scanner scanner = new Scanner(System.in);
     CategoriesJSON categoryParser = new CategoriesJSON();
     IncomeJSON incomeParser = new IncomeJSON();
