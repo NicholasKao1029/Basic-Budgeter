@@ -1,7 +1,6 @@
 package Test;
 
 import model.Income.ConstantSalary;
-import model.Income.PartTimeIncome;
 import model.Income.Salary;
 import org.junit.jupiter.api.Test;
 

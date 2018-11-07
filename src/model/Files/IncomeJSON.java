@@ -1,7 +1,8 @@
 package model.Files;
 
 
-import model.Income.PartTimeIncome;
+//import model.Income.PartTimeIncome;
+import model.Income.ConstantSalary;
 import model.Income.Salary;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -50,7 +51,7 @@ public class IncomeJSON {
             for (Object o : o2) {
                 JSONObject jsonobject1 = (JSONObject) o;
                 int amount = ((Number) jsonobject1.get("amount")).intValue();
-                Salary salary = new PartTimeIncome(amount);
+                Salary salary = new ConstantSalary(amount);
                 salaries.add(salary);
             }
         }
@@ -95,7 +96,7 @@ public class IncomeJSON {
             for (Object o : o2) {
                 JSONObject jsonobject1 = (JSONObject) o;
                 int amount = ((Number) jsonobject1.get("amount")).intValue();
-                Salary salary = new PartTimeIncome(amount);
+                Salary salary = new ConstantSalary(amount);
                 salaries.add(salary);
             }
         }

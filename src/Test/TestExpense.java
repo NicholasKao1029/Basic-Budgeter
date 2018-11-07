@@ -14,8 +14,8 @@ public class TestExpense {
     public void testConstructor() {
         Category c = new Category("food");
         Expense e = new Expense(10, "chicken", c);
-        assertEquals(e.getCost(), 10);
-        assertEquals(e.getName(), "chicken");
+        assertEquals(e.getAmount(), 10);
+        assertEquals(e.getDescription(), "chicken");
         assertEquals(e.getCategory(), c);
 
     }

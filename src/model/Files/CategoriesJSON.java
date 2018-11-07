@@ -20,10 +20,10 @@ public class CategoriesJSON {
             JSONArray expenses = new JSONArray();
             for (Expense expense : category.getExpenses()) {
                 JSONObject expenseObj = new JSONObject();
-                expenseObj.put("name", expense.getName());
-                System.out.println(expense.getName());
-                expenseObj.put("cost", expense.getCost());
-                System.out.println(expense.getCost());
+                expenseObj.put("name", expense.getDescription());
+                System.out.println(expense.getDescription());
+                expenseObj.put("cost", expense.getAmount());
+                System.out.println(expense.getAmount());
                 expenses.add(expenseObj);
             }
             obj.put(category.getName(), expenses);
@@ -69,10 +69,10 @@ public class CategoriesJSON {
             JSONArray expenses = new JSONArray();
             for (Expense expense : category.getExpenses()) {
                 JSONObject expenseObj = new JSONObject();
-                expenseObj.put("name", expense.getName());
-                System.out.println(expense.getName());
-                expenseObj.put("cost", expense.getCost());
-                System.out.println(expense.getCost());
+                expenseObj.put("name", expense.getDescription());
+                System.out.println(expense.getDescription());
+                expenseObj.put("cost", expense.getAmount());
+                System.out.println(expense.getAmount());
                 expenses.add(expenseObj);
             }
             obj.put(category.getName(), expenses);

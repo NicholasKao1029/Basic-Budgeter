@@ -43,4 +43,25 @@ public class TestCategory {
         assertEquals(c.totalExpenses(), 33);
 
     }
+
+    @Test
+    public void testRemoveExpense(){
+        Category c = new Category("food");
+        Expense e0 = new Expense(10, "peppers", c);
+        Expense e1 = new Expense(11, "meat", c);
+        Expense e2 = new Expense(9, "sauce", c);
+        Expense e3 = new Expense(3, "eggs", c);
+        c.addNewExpense(e0);
+        c.addNewExpense(e1);
+        c.addNewExpense(e2);
+        c.addNewExpense(e3);
+
+        assertEquals(c.totalExpenses(), 33);
+
+        c.removeExpense(e0);
+        assertEquals(c.totalExpenses(),23 );
+    }
+
+
+
 }

@@ -4,28 +4,29 @@ import Interfaces.CashFlow;
 
 public class Expense implements CashFlow {
 
-    private int cost;
-    private String name;
+    private int amount;
+    private String description;
     private Category category;
+    private int date;
 
-    public Expense(int cost, String name, Category category) {
-        this.cost = cost;
-        this.name = name;
+    public Expense(int amount, String description, Category category) {
+        this.amount = amount;
+        this.description = description;
         this.category = category;
     }
 
     //REQUIRES: nothing
     //MODIFIES: nothing
-    //EFFECTS: returns cost of Expense
-    public int getCost(){
-        return this.cost;
+    //EFFECTS: returns amount of Expense
+    public int getAmount(){
+        return this.amount;
     }
 
     //REQUIRES: nothing
     //MODIFIES: nothing
     //EFFECTS: returns category of Expense
-    public String getName(){
-        return this.name;
+    public String getDescription(){
+        return this.description;
     }
 
     //REQUIRES: nothing
@@ -39,7 +40,7 @@ public class Expense implements CashFlow {
     //MODIFIES: nothing
     //EFFECTS: returns true if e is same as expense
     public boolean compareExpense(Expense e) {
-        if ((this.getCost() ==e.getCost()) && (this.getName() == e.getName()) && (this.getCategory() == e.getCategory())){
+        if ((this.getAmount() ==e.getAmount()) && (this.getDescription() == e.getDescription()) && (this.getCategory() == e.getCategory())){
             return true;
         } else {
             return false;
@@ -48,6 +49,6 @@ public class Expense implements CashFlow {
 
     @Override
     public boolean isItEnough(int n) {
-        return (this.getCost() >= n) ;
+        return (this.getAmount() >= n) ;
     }
 }
