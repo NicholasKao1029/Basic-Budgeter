@@ -1,4 +1,4 @@
-package model.FileParser;
+package model.Files;
 
 
 //import model.Income.PartTimeIncome;

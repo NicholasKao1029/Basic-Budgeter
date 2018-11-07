@@ -1,12 +1,9 @@
 package model.Budgeting;
 
-//import model.Files.CreateFile;
 import Exceptions.zeroDollarException;
 import model.Category;
 import model.Expense;
-import model.FileParser.CategoriesJSON;
-import model.FileParser.IncomeJSON;
-import model.Income.ConstantSalary;
+import model.Files.CategoriesJSON;
 import model.Income.Salary;
 import org.json.simple.parser.ParseException;
 
@@ -19,10 +16,10 @@ import java.util.Scanner;
 public class Budget {
 
     private List<Category> categories;
-    private List<Salary> salaries;
+    private Salaries salaries;
     Scanner scanner = new Scanner(System.in);
     CategoriesJSON categoryParser = new CategoriesJSON();
-    IncomeJSON incomeParser = new IncomeJSON();
+
 
     //REQUIRES: nothing
     //MODIFIES: this
@@ -35,7 +32,7 @@ public class Budget {
         String category = "";
         int amount = 0;
         categories = categoryParser.parseCategories();
-        salaries = incomeParser.parseIncome();
+        salaries = new Salaries();
 
         while (true) {
             System.out.println(" What would you like to do " +
@@ -48,13 +45,13 @@ public class Budget {
             if (choice.equals("1")) {
                 expenseChoice(name, amount, scanner, category);
             } else if (choice.equals("2")) {
-                incomeChoice(amount);
+                salaries.incomeChoice(amount);
 
             } else if (choice.equals("3")){
                 diagnostics(choice);
             }
             if (choice.equals("4")) {
-                incomeParser.save(salaries);
+                salaries.save();
                 categoryParser.save(categories);
                 break;
             }
@@ -106,42 +103,6 @@ public class Budget {
     }
 
     //REQUIRES: nothing
-    //MODIFIES: this
-    //EFFECTS: Adds an income of Type Constant Income
-    public void incomeChoice (int amount ){
-//                System.out.println("[1] Enter 1 for Constant Salary [2] Enter 2 for PartTime Income");
-//                choice = scanner.nextLine();
-            System.out.println("Add amount of Constant Salary");
-            while(true){
-                try {
-                    if ((amount = scanner.nextInt()) == 0){
-                        throw new zeroDollarException();
-                    }
-                    break;
-                }catch(InputMismatchException e){
-                    System.out.println("Please insert an integer for amount");
-                    scanner.nextLine();
-                } catch (zeroDollarException e) {
-                    System.out.println("Please add a value greater than 0");
-                    scanner.nextLine();
-                } finally{
-                    System.out.println("Thanks for using salary feature!");
-                }
-            }
-            scanner.nextLine();
-            Salary salary = new ConstantSalary(amount);
-            salaries.add(salary);
-            System.out.println("Your salary of amount " + amount + " has been added");
-//             } else if (choice.equals("2")){
-//            System.out.println("Add amount of Constant Salary");
-//            amount = scanner.nextInt();
-//            scanner.nextLine();
-//            Salary salary = new PartTimeIncome(amount);
-//            salaries.add(salary);
-//            System.out.println("Your salary of amount " + amount + " has been added");
-    }
-
-    //REQUIRES: nothing
     //MODIFIES: nothing
     //EFFECTS: displays information about categories (currently)
     public void diagnostics(String choice){
@@ -169,7 +130,7 @@ public class Budget {
         for(Category category: categories){
             totalExpense = totalExpense + category.totalExpenses();
         }
-        for(Salary salary: salaries){
+        for(Salary salary: salaries.getSalaries()){
             totalIncome = totalIncome + salary.getAmount();
         }
         return (totalExpense - totalIncome);
