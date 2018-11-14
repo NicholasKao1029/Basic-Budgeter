@@ -1,9 +1,9 @@
 package model.Budgeting;
 
 import Exceptions.zeroDollarException;
+import model.Files.IncomeJSON;
 import model.Income.ConstantSalary;
 import model.Income.Salary;
-import model.Files.IncomeJSON;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-public class Salaries {
+public class Salaries  {
 
 
     private IncomeJSON incomeParser = new IncomeJSON();
