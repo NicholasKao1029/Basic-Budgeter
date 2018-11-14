@@ -1,24 +1,18 @@
 package model.Budgeting;
 
-import Exceptions.zeroDollarException;
 import model.Category;
-import model.Expense;
-import model.Files.CategoriesJSON;
 import model.Income.Salary;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
-import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Scanner;
 
 
 public class Budget {
 
-    private List<Category> categories;
+    private Categories categories;
     private Salaries salaries;
     Scanner scanner = new Scanner(System.in);
-    CategoriesJSON categoryParser = new CategoriesJSON();
 
 
     //REQUIRES: nothing
@@ -31,7 +25,7 @@ public class Budget {
         String name = "";
         String category = "";
         int amount = 0;
-        categories = categoryParser.parseCategories();
+        categories = new Categories();
         salaries = new Salaries();
 
         while (true) {
@@ -43,7 +37,7 @@ public class Budget {
             choice = scanner.nextLine();
             System.out.println("you have selected: " + choice);
             if (choice.equals("1")) {
-                expenseChoice(name, amount, scanner, category);
+                categories.expenseChoice(name, amount, scanner, category);
             } else if (choice.equals("2")) {
                 salaries.incomeChoice(amount);
 
@@ -52,55 +46,12 @@ public class Budget {
             }
             if (choice.equals("4")) {
                 salaries.save();
-                categoryParser.save(categories);
+                categories.save();
                 break;
             }
         }
     }
 
-    //REQUIRES:
-    //MODIFIES: this
-    //EFFECTS: Adds an expense to expense and if category exists adds it to that category, if not new category is created
-    public void expenseChoice (String name, int amount, Scanner scanner, String category){
-            System.out.println("Add name of expense");
-            name = scanner.nextLine();
-            System.out.println("Add amount");
-            while (true){
-                try {
-                    if ((amount = scanner.nextInt()) == 0) {
-                        throw new zeroDollarException();
-                    }
-                    break;
-                } catch (InputMismatchException e) {
-                    System.out.println("Please insert an integer for amount");
-                    scanner.nextLine();
-                } catch (zeroDollarException e){
-                    System.out.println("Please add an expense greater than 0");
-                    scanner.nextLine();
-                } finally{
-                    System.out.println("Thanks for using expense feature!");
-                }
-            }
-            scanner.nextLine();
-            System.out.println("Add category");
-            category = scanner.nextLine();
-            Category newCategory = new Category(category);
-
-            if (categories.contains(newCategory)) {
-                Category foundCategory = categories.get(categories.indexOf(newCategory));
-                Expense expense = new Expense(amount, name, foundCategory);
-                foundCategory.addNewExpense(expense);
-                categories.add(foundCategory);
-                System.out.println("Your new expense " + name + " has been added for an amount of " + amount + " into the existing category " + category);
-                System.out.println(foundCategory.getNamesOfExpenses());
-            } else {
-                Expense expense = new Expense(amount, name, newCategory);
-                newCategory.addNewExpense(expense);
-                categories.add(newCategory);
-                System.out.println("Your new expense " + name + " has been added for an amount of " + amount + " into the new category " + category);
-                System.out.println(newCategory.getNamesOfExpenses());
-            }
-    }
 
     //REQUIRES: nothing
     //MODIFIES: nothing
@@ -113,11 +64,11 @@ public class Budget {
                             "[3] break information getting loop and return to normal");
             choice = scanner.nextLine();
             if (choice.equals("1")) {
-                System.out.println("The first Category in Categories is called " + categories.get(0).getName());
-                System.out.println("The names of the expenses in this category are " + categories.get(0).getNamesOfExpenses());
+                System.out.println("The first Category in Categories is called " + categories.getCategories().get(0).getName());
+                System.out.println("The names of the expenses in this category are " + categories.getCategories().get(0).getNamesOfExpenses());
             }else if (choice.equals("2")){
-                System.out.println("The second Category in Categories is called " + categories.get(1).getName());
-                System.out.println("The names of the expenses in this Category are " + categories.get(1).getNamesOfExpenses());
+                System.out.println("The second Category in Categories is called " + categories.getCategories().get(1).getName());
+                System.out.println("The names of the expenses in this Category are " + categories.getCategories().get(1).getNamesOfExpenses());
             }else if (choice.equals("3")){
                 break;
             }
@@ -127,7 +78,7 @@ public class Budget {
     public int netIncome(){
         int totalExpense = 0;
         int totalIncome = 0;
-        for(Category category: categories){
+        for(Category category: categories.getCategories()){
             totalExpense = totalExpense + category.totalExpenses();
         }
         for(Salary salary: salaries.getSalaries()){
