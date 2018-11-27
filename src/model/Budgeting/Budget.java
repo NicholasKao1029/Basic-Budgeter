@@ -21,6 +21,11 @@ public class Budget implements MyObserver {
     //MODIFIES: this
     //EFFECTS: initiates startMenu options to add expense
 
+    public void Initialize() throws IOException, ParseException {
+        categories = new Categories();
+        salaries = new Salaries();
+    }
+
     public void startMenu() throws IOException, ParseException {
         // referenced from LittleLoggingCalculator
         String choice = "";

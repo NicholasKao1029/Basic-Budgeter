@@ -29,15 +29,14 @@ public class StartMenu extends Application  {
     //MODIFIES: budget
     //EFFECTS: creates budget and calls startMenu
     public static void main(String[] args) throws IOException, ParseException {
-
         launch(args);
-        Budget budget = new Budget();
-        budget.startMenu();
 
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+        budget.Initialize();
 
         // Layout 1 START MENU
         GridPane grid = new GridPane();
