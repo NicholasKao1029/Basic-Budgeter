@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import model.Budgeting.Budget;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ public class StartMenu extends Application  {
     private Button IncButton;
     private Scene mainmenu, ExScene, IncScene;
     private ErrorBox alert;
+    private Budget budget = new Budget();
 
     //REQUIRES: nothing
     //MODIFIES: budget
@@ -29,8 +31,8 @@ public class StartMenu extends Application  {
     public static void main(String[] args) throws IOException, ParseException {
 
         launch(args);
-//        Budget budget = new Budget();
-//        budget.startMenu();
+        Budget budget = new Budget();
+        budget.startMenu();
 
     }
 
@@ -141,7 +143,7 @@ public class StartMenu extends Application  {
                 if (amount <= 0){
                     throw new IncorrectFigureException();
                 }
-                IncConfirm();
+                budget.incomeChoice(amount);
             }catch(NumberFormatException e){
                 System.out.println("Please insert an integer greater than 0");
                 alert.display("Error", "Please insert an integer for amount greater than 0");
@@ -151,7 +153,4 @@ public class StartMenu extends Application  {
             }
     }
 
-    public void IncConfirm(){
-
-    }
 }

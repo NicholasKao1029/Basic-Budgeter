@@ -12,8 +12,8 @@ import java.util.Scanner;
 
 public class Budget implements MyObserver {
 
-    private static Categories categories;
-    private static Salaries salaries;
+    private Categories categories;
+    private Salaries salaries;
     Scanner scanner = new Scanner(System.in);
 
 
@@ -58,6 +58,15 @@ public class Budget implements MyObserver {
                 break;
             }
         }
+    }
+
+    public void expenseChoice(String name, int amount, String category){
+
+    }
+
+    public void incomeChoice(int amount ){
+        salaries.incomeChoice(amount);
+        salaries.save();
     }
 
 
