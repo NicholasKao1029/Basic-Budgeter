@@ -1,6 +1,8 @@
 package model.Budgeting;
 
 import Exceptions.zeroDollarException;
+import Observe.MyObserver;
+import Observe.Subject;
 import model.Category;
 import model.Expense;
 import model.Files.CategoriesJSON;
@@ -11,7 +13,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-public class Categories {
+public class Categories extends Subject {
 
     CategoriesJSON categoryParser = new CategoriesJSON();
     private List<Category> categories = categoryParser.parseCategories();
@@ -71,5 +73,9 @@ public class Categories {
 
     public void save (){
         categoryParser.save(categories);
+    }
+
+    public void notify(MyObserver observer){
+        notifyObservers(observer);
     }
 }

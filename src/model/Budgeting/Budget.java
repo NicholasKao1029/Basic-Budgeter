@@ -1,17 +1,19 @@
 package model.Budgeting;
 
+import Observe.MyObserver;
 import model.Category;
 import model.Income.Salary;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.security.ProtectionDomain;
 import java.util.Scanner;
 
 
-public class Budget {
+public class Budget implements MyObserver {
 
-    private Categories categories;
-    private Salaries salaries;
+    private static Categories categories;
+    private static Salaries salaries;
     Scanner scanner = new Scanner(System.in);
 
 
@@ -32,17 +34,22 @@ public class Budget {
             System.out.println(" What would you like to do " +
                     "[1] Enter 1 for Expense" +
                     "[2] Enter 2 for Salary" +
-                    "[3] Enter 3 for Diagnostics on categories" +
+                    "[3] Enter 3 for Net Income" +
                     "[4] Enter 4 to Quit");
             choice = scanner.nextLine();
             System.out.println("you have selected: " + choice);
             if (choice.equals("1")) {
+                categories.addObserver(this);
                 categories.expenseChoice(name, amount, scanner, category);
+                categories.notifyObservers(this);
             } else if (choice.equals("2")) {
                 salaries.incomeChoice(amount);
 
             } else if (choice.equals("3")){
-                diagnostics(choice);
+                System.out.println(netIncome());
+
+//            } else if (choice.equals("3")){
+//                diagnostics(choice);
             }
             if (choice.equals("4")) {
                 salaries.save();
@@ -84,7 +91,13 @@ public class Budget {
         for(Salary salary: salaries.getSalaries()){
             totalIncome = totalIncome + salary.getAmount();
         }
-        return (totalExpense - totalIncome);
+        return ( totalIncome - totalExpense);
     }
+
+    @Override
+    public void update (MyObserver observer){
+        System.out.println("Categories has been updated");
+    }
+
 }
 

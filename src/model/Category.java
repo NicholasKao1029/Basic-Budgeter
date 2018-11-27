@@ -45,13 +45,6 @@ public class Category {
     }
 
 
-//    public void addNewExpense(Expense expense){
-//        if(!expenses.contains(expense)){
-//            expenses.add(expense);
-//            expense.addCategory(this);
-//        }
-//    }
-
 
     //REQUIRES: nothing
     //MODIFIES: this

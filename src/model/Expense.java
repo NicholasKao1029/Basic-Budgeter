@@ -2,7 +2,7 @@ package model;
 
 import Interfaces.CashFlow;
 
-public class Expense implements CashFlow {
+public class Expense implements CashFlow{
 
     private int amount;
     private String description;
