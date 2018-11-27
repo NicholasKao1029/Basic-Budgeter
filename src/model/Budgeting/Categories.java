@@ -1,6 +1,6 @@
 package model.Budgeting;
 
-import Exceptions.zeroDollarException;
+import Exceptions.IncorrectFigureException;
 import Observe.MyObserver;
 import Observe.Subject;
 import model.Category;
@@ -33,17 +33,15 @@ public class Categories extends Subject {
         while (true){
             try {
                 if ((amount = scanner.nextInt()) == 0) {
-                    throw new zeroDollarException();
+                    throw new IncorrectFigureException();
                 }
                 break;
             } catch (InputMismatchException e) {
                 System.out.println("Please insert an integer for amount");
                 scanner.nextLine();
-            } catch (zeroDollarException e){
+            } catch (IncorrectFigureException e){
                 System.out.println("Please add an expense greater than 0");
                 scanner.nextLine();
-            } finally{
-                System.out.println("Thanks for using expense feature!");
             }
         }
         scanner.nextLine();

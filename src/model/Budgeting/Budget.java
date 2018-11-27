@@ -31,10 +31,10 @@ public class Budget implements MyObserver {
         salaries = new Salaries();
 
         while (true) {
-            System.out.println(" What would you like to do " +
-                    "[1] Enter 1 for Expense" +
-                    "[2] Enter 2 for Salary" +
-                    "[3] Enter 3 for Net Income" +
+            System.out.println(" What would you like to do \n" +
+                    "[1] Enter 1 for Expense \n" +
+                    "[2] Enter 2 for Salary\n" +
+                    "[3] Enter 3 for Net Income\n" +
                     "[4] Enter 4 to Quit");
             choice = scanner.nextLine();
             System.out.println("you have selected: " + choice);
@@ -49,7 +49,8 @@ public class Budget implements MyObserver {
                 System.out.println(netIncome());
 
 //            } else if (choice.equals("3")){
-//                diagnostics(choice);
+//                diagnostics(choice);4
+
             }
             if (choice.equals("4")) {
                 salaries.save();

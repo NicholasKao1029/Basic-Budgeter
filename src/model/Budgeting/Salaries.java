@@ -1,6 +1,6 @@
 package model.Budgeting;
 
-import Exceptions.zeroDollarException;
+import Exceptions.IncorrectFigureException;
 import model.Files.IncomeJSON;
 import model.Income.ConstantSalary;
 import model.Income.Salary;
@@ -32,13 +32,13 @@ public class Salaries  {
         while(true){
             try {
                 if ((amount = scanner.nextInt()) == 0){
-                    throw new zeroDollarException();
+                    throw new IncorrectFigureException();
                 }
                 break;
             }catch(InputMismatchException e){
                 System.out.println("Please insert an integer for amount");
                 scanner.nextLine();
-            } catch (zeroDollarException e) {
+            } catch (IncorrectFigureException e) {
                 System.out.println("Please add a value greater than 0");
                 scanner.nextLine();
             } finally{
