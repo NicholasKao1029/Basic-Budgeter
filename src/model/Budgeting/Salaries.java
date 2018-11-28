@@ -38,4 +38,12 @@ public class Salaries  {
     public void save(){
         incomeParser.save(salaries);
     }
+
+    public int total(){
+        int total = 0;
+        for(Salary s: salaries){
+            total += s.getAmount();
+        }
+        return total;
+    }
 }

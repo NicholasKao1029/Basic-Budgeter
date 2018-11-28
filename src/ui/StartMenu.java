@@ -5,18 +5,27 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.Budgeting.Budget;
+import model.Budgeting.Categories;
+import model.Budgeting.Salaries;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 
 public class StartMenu extends Application  {
 
-    private int HSize = 800;
-    private int WSize = 900;
+    private int HSize = 400;
+    private int WSize = 600;
 
     private Stage window;
     private Button ExButton;
@@ -24,6 +33,7 @@ public class StartMenu extends Application  {
     private Scene mainmenu, ExScene, IncScene;
     private AlertBox alert;
     private Budget budget = new Budget();
+    private TreeView<String> categ;
 
     //REQUIRES: nothing
     //MODIFIES: budget
@@ -38,6 +48,28 @@ public class StartMenu extends Application  {
 
         budget.Initialize();
 
+        //totals of categories and salaries
+        GridPane top = new GridPane();
+
+        Text CTotal = initializeCTotal();
+        Text STotal = initializeSTotal();
+        top.setConstraints(CTotal, 5 ,1 );
+        top.setConstraints(STotal, 5 ,2 );
+        top.getChildren().addAll(CTotal, STotal);
+        top.setPadding(new Insets(10,10,10,10));
+        top.setVgap(8);
+        top.setHgap(10);
+
+
+        //netincome
+        GridPane mid = new GridPane();
+
+        mid.getChildren().add(initializeNetTotal());
+        mid.setPadding(new Insets(40,15,15,15));
+        mid.setVgap(8);
+        mid.setHgap(10);
+
+
         // Layout 1 START MENU
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(10, 10, 10, 10));
@@ -49,29 +81,34 @@ public class StartMenu extends Application  {
 
         ExButton = new Button();
         ExButton.setText("Enter Expense");
-        grid.setConstraints(ExButton, 0 ,0 );
+        grid.setConstraints(ExButton, 0 ,3);
 
         IncButton = new Button();
         IncButton.setText("Enter Income");
-        grid.setConstraints(IncButton, 0 ,1 );
+        grid.setConstraints(IncButton, 0 ,6 );
 
         ExButton.setOnAction(e -> ExLayout());
 
         IncButton.setOnAction(e -> IncLayout());
 
         grid.getChildren().addAll(ExButton, IncButton);
-        mainmenu = new Scene(grid, WSize, HSize);
+
+        BorderPane bp = new BorderPane();
+        bp.setRight(grid);
+        bp.setCenter(mid);
+        bp.setTop(top);
+
+
+        mainmenu = new Scene(bp, WSize, HSize);
         window.setScene(mainmenu);
         window.show();
 
-        //TODO: need to make sure it's a int value for amount and for amount in expense
-        //TODO: add functionality to button 2 and 3 for confirmation.
 
 
 
         //TODO: possible things to do
         //TODO: see list of categories in a list kinda thing List view object
-        //TODO: when selecting from previous categories a comboBox to add a new one and or see alr created ones
+        //TODO: when selecting from previous categories a comboBox to a dd a new one and or see alr created ones
         //TODO: find way to load categories as options into the combobox forall loop iterting through the options.
         //
 
@@ -98,12 +135,12 @@ public class StartMenu extends Application  {
         grid1.setConstraints(expense, 1, 2);
         grid1.setConstraints(category, 1, 4);
 
-        Button button2 = new Button("Confirm");
-        grid1.setConstraints(button2, 1, 6);
-        button2.setOnAction(e -> System.out.println("asdf"));
+        Button confirm = new Button("Confirm");
+        grid1.setConstraints(confirm, 1, 6);
+        confirm.setOnAction(e -> expenseChoice(name, expense, category));
 
 
-        grid1.getChildren().addAll(name, expense, category, button2);
+        grid1.getChildren().addAll(name, expense, category, confirm);
         ExScene = new Scene(grid1, WSize, HSize);
         window.setScene(ExScene);
     }
@@ -127,17 +164,15 @@ public class StartMenu extends Application  {
 
         Button confirm = new Button("Save");
         grid2.setConstraints(confirm, 1, 6);
-        confirm.setOnAction(e -> isInt(amount , amount.getText()));
-
-
-
+        confirm.setOnAction(e -> incomeChoice(amount , amount.getText()));
 
         grid2.getChildren().addAll(amount, confirm);
         IncScene = new Scene(grid2, WSize, HSize);
         window.setScene(IncScene);
     }
 
-    public void isInt(TextField input, String text){
+
+    public void incomeChoice(TextField input, String text){
             try {
                 int amount = Integer.parseInt(text);
                 if (amount <= 0){
@@ -145,15 +180,98 @@ public class StartMenu extends Application  {
                 }
                 budget.incomeChoice(amount);
                 AlertBox.display("Success", "Salary of amount " + amount + " has been added!");
-                window.setScene(mainmenu); //This could need to change to a method so I can choose when where I want to go.
+                initializeNetTotal();
+                start(window);
 
             }catch(NumberFormatException e){
                 System.out.println("Please insert an integer greater than 0");
-                alert.display("Error", "Please insert an integer for amount greater than 0");
+                alert.display("Error", "Please insert an integer of amount greater than 0");
             } catch (IncorrectFigureException e) {
                 System.out.println("Please add a value greater than 0");
                 alert.display("Error", "Please insert an integer for amount");
+            } catch (Exception e) {
+                e.printStackTrace();
             }
     }
 
-}
+    public void expenseChoice(TextField name, TextField expense, TextField category){
+        String n = name.getText();
+        String a = expense.getText();
+        String c = category.getText();
+
+            if (!isValid(a)) {
+                alert.display("Error", "Please insert an integer of amount greater than 0");
+            }
+        else{
+                int amount = Integer.parseInt(a);
+                budget.expenseChoice(n, amount, c);
+                alert.display("Success", "Your new expense " + n + " has been added for an amount of \n" + a + " into the category " + c);
+                window.setScene(mainmenu);
+                try {
+                    start(window);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+    }
+
+    // checks to see if valid int
+    public boolean isValid(String figure){
+        try {
+            int amount = Integer.parseInt(figure);
+            if (amount <= 0){
+                throw new IncorrectFigureException();
+            }
+            return true;
+        }catch(NumberFormatException e){
+            return false;
+        } catch (IncorrectFigureException e) {
+            return false;
+        }
+
+    }
+
+    public Text initializeNetTotal(){
+
+        int net = budget.netIncome();
+        String netS = Integer.toString(net);
+        String end = "Your net income is " + netS;
+        Text T = new Text(end);
+        T.setFont(Font.font("Century Gothic", FontWeight.BOLD, 20));
+
+        return T;
+    }
+
+    public Text initializeCTotal(){
+        Categories categories = budget.getCategories();
+        int cTotal = categories.totalExpenses();
+        String C = Integer.toString(cTotal);
+        String end = "          $ " +C+ " Total Expense";
+        Text totalExpenses = new Text(end);
+        totalExpenses.setFont(Font.font("Century Gothic", FontWeight.MEDIUM, 15));
+
+        return totalExpenses;
+
+    }
+    public Text initializeSTotal(){
+        Salaries salaries = budget.getSalaries();
+        int sTotal = salaries.total();
+        String S = Integer.toString(sTotal);
+        String end = "          $ " +S+ " Total Salary";
+        Text totalIncome = new Text(end);
+        totalIncome.setFont(Font.font("Century Gothic", FontWeight.MEDIUM, 15));
+
+        return totalIncome;
+
+    }
+
+    //Create branches
+    public TreeItem<String> makeBranch(String title, TreeItem<String> parent) {
+        TreeItem<String> item = new TreeItem<>(title);
+        item.setExpanded(true);
+        parent.getChildren().add(item);
+        return item;
+    }
+
+    }
+

@@ -26,27 +26,7 @@ public class Categories extends Subject {
     //REQUIRES:
     //MODIFIES: this
     //EFFECTS: Adds an expense to expense and if category exists adds it to that category, if not new category is created
-    public void expenseChoice (String name, int amount, Scanner scanner, String category){
-        System.out.println("Add name of expense");
-        name = scanner.nextLine();
-        System.out.println("Add amount");
-        while (true){
-            try {
-                if ((amount = scanner.nextInt()) == 0) {
-                    throw new IncorrectFigureException();
-                }
-                break;
-            } catch (InputMismatchException e) {
-                System.out.println("Please insert an integer for amount");
-                scanner.nextLine();
-            } catch (IncorrectFigureException e){
-                System.out.println("Please add an expense greater than 0");
-                scanner.nextLine();
-            }
-        }
-        scanner.nextLine();
-        System.out.println("Add category");
-        category = scanner.nextLine();
+    public void expenseChoice (String name, int amount, String category){
         Category newCategory = new Category(category);
 
         if (categories.contains(newCategory)) {
@@ -75,5 +55,13 @@ public class Categories extends Subject {
 
     public void notify(MyObserver observer){
         notifyObservers(observer);
+    }
+
+    public int totalExpenses(){
+        int total = 0;
+        for(Category c: categories){
+            total += c.totalExpenses();
+        }
+        return total;
     }
 }

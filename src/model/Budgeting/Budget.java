@@ -45,7 +45,7 @@ public class Budget implements MyObserver {
             System.out.println("you have selected: " + choice);
             if (choice.equals("1")) {
                 categories.addObserver(this);
-                categories.expenseChoice(name, amount, scanner, category);
+                categories.expenseChoice(name, amount, category);
                 categories.notifyObservers(this);
             } else if (choice.equals("2")) {
                 salaries.incomeChoice(amount);
@@ -66,6 +66,8 @@ public class Budget implements MyObserver {
     }
 
     public void expenseChoice(String name, int amount, String category){
+        categories.expenseChoice(name, amount, category);
+        categories.save();
 
     }
 
@@ -112,6 +114,14 @@ public class Budget implements MyObserver {
     @Override
     public void update (MyObserver observer){
         System.out.println("Categories has been updated");
+    }
+
+    public Categories getCategories() {
+        return categories;
+    }
+
+    public Salaries getSalaries(){
+        return salaries;
     }
 
 }

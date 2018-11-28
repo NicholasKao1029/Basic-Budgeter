@@ -8,9 +8,10 @@ public class Category {
 
     private List<Expense> expenses;
     private String name;
+    private String trial;
 
     public Category(String name){
-        this.name = name;
+        this.name = name.toLowerCase(); //to lowercase so case doesn't matter might try uppercase or something else
         this.expenses = new ArrayList<Expense>();
     }
 
