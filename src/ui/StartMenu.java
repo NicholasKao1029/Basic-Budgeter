@@ -58,18 +58,20 @@ public class StartMenu extends Application  {
         categ.setShowRoot(false);
 
         GridPane tree = new GridPane();
-        Text t = new Text("Categories");
-        tree.getChildren().addAll(t, categ);
+        tree.getChildren().addAll( categ);
 
 
         //totals of categories and salaries
         GridPane top = new GridPane();
 
+        Text t = new Text("Categories of Expenses");
+        t.setFont(Font.font("Century Gothic", FontWeight.BOLD, 20));
         Text CTotal = initializeCTotal();
         Text STotal = initializeSTotal();
-        top.setConstraints(CTotal, 22 ,1 );
-        top.setConstraints(STotal, 22,2 );
-        top.getChildren().addAll(CTotal, STotal);
+        top.setConstraints(CTotal, 5 ,1 );
+        top.setConstraints(STotal, 5,2 );
+        top.setConstraints(t,0, 2 );
+        top.getChildren().addAll(t, CTotal, STotal);
         top.setPadding(new Insets(10,10,10,10));
         top.setVgap(8);
         top.setHgap(10);
@@ -147,18 +149,21 @@ public class StartMenu extends Application  {
         expense = new TextField();
         category = new TextField();
         name.setPromptText("Name");
+        name.setPrefWidth(400);
         expense.setPromptText("Amount");
+        expense.setPrefWidth(400);
         category.setPromptText("Category");
-        grid1.setConstraints(name, 30, 16);
-        grid1.setConstraints(expense, 30, 18);
-        grid1.setConstraints(category, 30, 20);
+        category.setPrefWidth(400);
+        grid1.setConstraints(name, 20, 16);
+        grid1.setConstraints(expense, 20, 18);
+        grid1.setConstraints(category, 20, 20);
 
 
         Button confirm = new Button("Confirm");
-        grid1.setConstraints(confirm, 30, 22);
+        grid1.setConstraints(confirm, 20, 22);
         confirm.setOnAction(e -> expenseChoice(name, expense, category));
         Button goBack = new Button("Return to Main Menu");
-        grid1.setConstraints(goBack, 30, 24);
+        grid1.setConstraints(goBack, 20, 24);
         goBack.setOnAction(e -> window.setScene(mainmenu));
         goBack.getStyleClass().add("button-exit");
 
@@ -184,13 +189,14 @@ public class StartMenu extends Application  {
 
         amount = new TextField();
         amount.setPromptText("Amount");
-        grid2.setConstraints(amount, 30, 16);
+        amount.setPrefWidth(400);
+        grid2.setConstraints(amount, 20, 16);
 
         Button confirm = new Button("Save");
-        grid2.setConstraints(confirm, 30, 18);
+        grid2.setConstraints(confirm, 20, 18);
         confirm.setOnAction(e -> incomeChoice(amount , amount.getText()));
         Button goBack = new Button("Return to Main Menu");
-        grid2.setConstraints(goBack, 30, 20);
+        grid2.setConstraints(goBack, 20, 20);
         goBack.setOnAction(e -> window.setScene(mainmenu));
         goBack.getStyleClass().add("button-exit");
 
