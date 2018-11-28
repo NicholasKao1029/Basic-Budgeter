@@ -22,7 +22,7 @@ public class StartMenu extends Application  {
     private Button ExButton;
     private Button IncButton;
     private Scene mainmenu, ExScene, IncScene;
-    private ErrorBox alert;
+    private AlertBox alert;
     private Budget budget = new Budget();
 
     //REQUIRES: nothing
@@ -125,9 +125,10 @@ public class StartMenu extends Application  {
         amount.setPromptText("Amount");
         grid2.setConstraints(amount, 1, 4);
 
-        Button confirm = new Button("Confirm");
+        Button confirm = new Button("Save");
         grid2.setConstraints(confirm, 1, 6);
         confirm.setOnAction(e -> isInt(amount , amount.getText()));
+
 
 
 
@@ -143,6 +144,9 @@ public class StartMenu extends Application  {
                     throw new IncorrectFigureException();
                 }
                 budget.incomeChoice(amount);
+                AlertBox.display("Success", "Salary of amount " + amount + " has been added!");
+                window.setScene(mainmenu); //This could need to change to a method so I can choose when where I want to go.
+
             }catch(NumberFormatException e){
                 System.out.println("Please insert an integer greater than 0");
                 alert.display("Error", "Please insert an integer for amount greater than 0");
