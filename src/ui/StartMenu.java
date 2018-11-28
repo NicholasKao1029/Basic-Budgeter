@@ -4,35 +4,36 @@ import Exceptions.IncorrectFigureException;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.Budgeting.Budget;
 import model.Budgeting.Categories;
 import model.Budgeting.Salaries;
+import model.Category;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StartMenu extends Application  {
 
-    private int HSize = 400;
-    private int WSize = 600;
+    private int HSize = 500;
+    private int WSize = 800;
 
     private Stage window;
     private Button ExButton;
     private Button IncButton;
     private Scene mainmenu, ExScene, IncScene;
-    private AlertBox alert;
     private Budget budget = new Budget();
+    private AlertBox alert;
     private TreeView<String> categ;
 
     //REQUIRES: nothing
@@ -48,17 +49,32 @@ public class StartMenu extends Application  {
 
         budget.Initialize();
 
+
+        TreeItem<String> root;
+        root = new TreeItem<>();
+        root.setExpanded(true);
+        createTree(root);
+        categ = new TreeView<>(root);
+        categ.setShowRoot(false);
+
+        GridPane tree = new GridPane();
+        Text t = new Text("Categories");
+        tree.getChildren().addAll(t, categ);
+
+
         //totals of categories and salaries
         GridPane top = new GridPane();
 
         Text CTotal = initializeCTotal();
         Text STotal = initializeSTotal();
-        top.setConstraints(CTotal, 5 ,1 );
-        top.setConstraints(STotal, 5 ,2 );
+        top.setConstraints(CTotal, 22 ,1 );
+        top.setConstraints(STotal, 22,2 );
         top.getChildren().addAll(CTotal, STotal);
         top.setPadding(new Insets(10,10,10,10));
         top.setVgap(8);
         top.setHgap(10);
+
+
 
 
         //netincome
@@ -97,9 +113,11 @@ public class StartMenu extends Application  {
         bp.setRight(grid);
         bp.setCenter(mid);
         bp.setTop(top);
+        bp.setLeft(tree);
 
 
         mainmenu = new Scene(bp, WSize, HSize);
+        mainmenu.getStylesheets().add("viper.css");
         window.setScene(mainmenu);
         window.show();
 
@@ -131,17 +149,23 @@ public class StartMenu extends Application  {
         name.setPromptText("Name");
         expense.setPromptText("Amount");
         category.setPromptText("Category");
-        grid1.setConstraints(name, 1, 0);
-        grid1.setConstraints(expense, 1, 2);
-        grid1.setConstraints(category, 1, 4);
+        grid1.setConstraints(name, 30, 16);
+        grid1.setConstraints(expense, 30, 18);
+        grid1.setConstraints(category, 30, 20);
+
 
         Button confirm = new Button("Confirm");
-        grid1.setConstraints(confirm, 1, 6);
+        grid1.setConstraints(confirm, 30, 22);
         confirm.setOnAction(e -> expenseChoice(name, expense, category));
+        Button goBack = new Button("Return to Main Menu");
+        grid1.setConstraints(goBack, 30, 24);
+        goBack.setOnAction(e -> window.setScene(mainmenu));
+        goBack.getStyleClass().add("button-exit");
 
 
-        grid1.getChildren().addAll(name, expense, category, confirm);
+        grid1.getChildren().addAll(name, expense, category, confirm, goBack);
         ExScene = new Scene(grid1, WSize, HSize);
+        ExScene.getStylesheets().add("viper.css");
         window.setScene(ExScene);
     }
 
@@ -160,14 +184,19 @@ public class StartMenu extends Application  {
 
         amount = new TextField();
         amount.setPromptText("Amount");
-        grid2.setConstraints(amount, 1, 4);
+        grid2.setConstraints(amount, 30, 16);
 
         Button confirm = new Button("Save");
-        grid2.setConstraints(confirm, 1, 6);
+        grid2.setConstraints(confirm, 30, 18);
         confirm.setOnAction(e -> incomeChoice(amount , amount.getText()));
+        Button goBack = new Button("Return to Main Menu");
+        grid2.setConstraints(goBack, 30, 20);
+        goBack.setOnAction(e -> window.setScene(mainmenu));
+        goBack.getStyleClass().add("button-exit");
 
-        grid2.getChildren().addAll(amount, confirm);
+        grid2.getChildren().addAll(amount, confirm, goBack);
         IncScene = new Scene(grid2, WSize, HSize);
+        IncScene.getStylesheets().add("viper.css");
         window.setScene(IncScene);
     }
 
@@ -235,7 +264,7 @@ public class StartMenu extends Application  {
 
         int net = budget.netIncome();
         String netS = Integer.toString(net);
-        String end = "Your net income is " + netS;
+        String end = "Your net income is " + netS+ " dollars";
         Text T = new Text(end);
         T.setFont(Font.font("Century Gothic", FontWeight.BOLD, 20));
 
@@ -263,6 +292,17 @@ public class StartMenu extends Application  {
 
         return totalIncome;
 
+    }
+
+    public void createTree(TreeItem<String> root ){
+        List<Category> categories = budget.getCategories().getCategories();
+        for(Category c: categories){
+            List<String> l = c.getNamesOfExpenses();
+            TreeItem<String> n = makeBranch(c.getName(), root);
+            for(String s: l){
+                makeBranch(s,n);
+            }
+        }
     }
 
     //Create branches

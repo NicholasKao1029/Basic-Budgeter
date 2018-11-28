@@ -9,6 +9,7 @@ import model.Files.CategoriesJSON;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -49,6 +50,14 @@ public class Categories extends Subject {
         return categories;
     }
 
+    public List<String> getCategoryNames(){
+        List<String> output = new ArrayList<>();
+        for (Category c: categories){
+            output.add(c.getName());
+        }
+        return output;
+    }
+
     public void save (){
         categoryParser.save(categories);
     }
@@ -64,4 +73,6 @@ public class Categories extends Subject {
         }
         return total;
     }
+
+
 }
