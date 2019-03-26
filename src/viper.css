@@ -1,0 +1,14 @@
+.root{
+    -fx-background-color:linear-gradient(#BA8BAF, #7CAFC2);
+}
+.button{
+    -fx-background-color: #86C1B9;
+    -fx-background-radius: 5;
+    -fx-text-fill: #FFFFFF;
+
+}
+.button-exit{
+    -fx-background-color: #DC9656;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-radius: 5;
+}

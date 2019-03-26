@@ -78,7 +78,7 @@ public class CategoriesJSON {
             obj.put(category.getName(), expenses);
         }
 
-        try (FileWriter file = new FileWriter("C:\\Users\\Nicholas Kao\\Desktop\\UBC education\\Term 1\\CPSC 210\\project\\projectw1_team189\\src\\Test\\TestCategories.json")) {
+        try (FileWriter file = new FileWriter("src\\Test\\TestCategories.json")) {
             file.write(obj.toJSONString());
             System.out.println("\nJSON Object: " + obj);
         } catch (Exception e) {

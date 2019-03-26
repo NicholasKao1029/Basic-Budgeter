@@ -78,7 +78,6 @@ public class StartMenu extends Application  {
 
 
 
-
         //netincome
         GridPane mid = new GridPane();
 
